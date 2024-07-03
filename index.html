@@ -2,11 +2,183 @@
 
 <head>
     <title>Node JS Class</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: start;
+            overflow-y: scroll;
+        }
+
+        .devtools {
+            width: 60%;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .request-details {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .request-details input, .request-details select, .request-details button{
+            margin: 0;
+            padding: 1rem;
+            border: 0.25rem solid #f1f1f1;
+            border-radius: 0.5rem;
+            font-size: 1.5rem;
+            font-family: monospace;
+        }
+
+        .request-details input {
+            width: 100%;
+        }
+
+        .request-details select, .request-details button {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            text-indent: 1px;
+            text-overflow: '';
+            text-align: center;
+            width: 20%;
+            cursor: pointer;
+        }
+
+        .request-body {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .request-body textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 0.25rem solid #f1f1f1;
+            border-radius: 0.5rem;
+            font-size: 1.5rem;
+            font-family: monospace;
+        }
+
+        .request-send {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .request-send button {
+            padding: 1rem;
+            border: 0.25rem solid #f1f1f1;
+            border-radius: 0.5rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .response {
+            width: 100%;
+            padding: 1rem;
+            border: 0.25rem solid #f1f1f1;
+            border-radius: 0.5rem;
+            font-size: 1.5rem;
+            font-family: monospace;
+            white-space: pre-wrap;
+            overflow: auto;
+            display: flex;
+            flex-direction: row;
+            align-items: start;
+            justify-content: start;
+        }
+
+        .response pre {
+            width: 100%;
+            font-family: monospace;
+        }
+    </style>
 </head>
 
+<script>
+    function sendRequest(method) {
+        const url = document.getElementById('url').value;
+        const body = document.getElementById('body').value;
+
+        fetch(url, method === "GET" ? {} : {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: body
+        }).then(req => {
+            if (req.status === 404) {
+                return `[${method} ${url}] Not Found`;
+            }
+
+            return req.text();
+        }).then(data => {
+            document.getElementById('response').innerText = `${data}\n` + document.getElementById('response').innerText;
+        });
+    }
+</script>
+
 <body>
-    <h1>Hello Index</h1>
-    <a href="/login">Login Page</a>
+    <div class="container">
+        <div class="devtools">
+            <h1>Request</h1>
+
+            <div class="request-details">
+                <input type="text" id="url" placeholder="url" value="/api">
+                
+                <!-- <select id="method">
+                    <option value="GET">GET</option>
+                    <option value="POST">POST</option>
+                    <option value="PUT">PUT</option>
+                    <option value="DELETE">DELETE</option>
+                </select> -->
+
+                <button id="method" onclick="sendRequest('GET');">GET</button>
+                <button id="method" onclick="sendRequest('POST');">POST</button>
+                <button id="method" onclick="sendRequest('PUT');">PUT</button>
+                <button id="method" onclick="sendRequest('DELETE');">DELETE</button>
+            </div>
+
+            <div class="request-body">
+                <textarea id="body" placeholder="body"></textarea>
+            </div>
+
+            <!-- <div class="request-send">
+                <button onclick="sendRequest()">Send Request</button>
+            </div> -->
+
+            <h1>Response</h1>
+
+            <div class="response">
+                <pre id="response"></pre>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
