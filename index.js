@@ -11,7 +11,7 @@ app.use(systemLogger);
 var courses = [];
 
 function systemLogger(req, res, next) {
-    console.log(req.method, req.ip, req.hostname);
+    console.log(req.method, req.url, req.ip, req.hostname);
     next();
 }
 
@@ -47,6 +47,11 @@ app.get("/api/courses", (req, res) => {
 });
 
 app.post("/api/courses", (req, res) => {
+    if (!req.body.name || req.body.name.length < 3) {
+        res.send({"message": "Name is required"});
+        return;
+    }
+
     let course = {
         id: courses.length + 1,
         name: req.body.name

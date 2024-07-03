@@ -9,6 +9,7 @@
             padding: 0;
             box-sizing: border-box;
             font-family: Arial, sans-serif;
+            outline: none;
         }
 
         .container {
@@ -53,7 +54,7 @@
             width: 100%;
         }
 
-        .request-details select, .request-details button {
+        /* .request-details select {
             -webkit-appearance: none;
             -moz-appearance: none;
             text-indent: 1px;
@@ -61,6 +62,12 @@
             text-align: center;
             width: 20%;
             cursor: pointer;
+        } */
+
+        .request-details button {
+            cursor: pointer;
+            text-align: center;
+            width: 20%;
         }
 
         .request-body {
@@ -79,6 +86,7 @@
             border-radius: 0.5rem;
             font-size: 1.5rem;
             font-family: monospace;
+            resize: vertical;
         }
 
         .request-send {
@@ -111,6 +119,21 @@
             flex-direction: row;
             align-items: start;
             justify-content: start;
+            min-height: 5rem;
+        }
+
+        .response pre:empty {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .response pre:empty::after {
+            content: 'No Response';
+            font-size: 1.5rem;
+            opacity: 0.5;
         }
 
         .response pre {
